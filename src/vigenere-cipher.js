@@ -19,14 +19,44 @@ const { NotImplementedError } = require('../extensions/index.js');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  * 
  */
+
+ const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  isReversed = false;
+  constructor() {
+    if (arguments[0] === false) this.isReversed = true;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+  encrypt(str, key) {
+    if (str === undefined || key === undefined) throw new Error("Incorrect arguments!");
+
+    str = str.toUpperCase();
+    key = key.toUpperCase();
+
+    let iterator = 0;
+    let getShiftValue = () => alphabet.indexOf(key[iterator++ % key.length]);
+    let result = str.replace(/[a-z]/gi, (char) => {
+      let position = alphabet.indexOf(char);
+      return alphabet[(position + getShiftValue()) % alphabet.length];
+    })
+    return this.isReversed ? result.split("").reverse().join(""): result;
+  }
+
+  decrypt(str, key) {
+    if (typeof str !== 'string' || typeof key !== 'string') throw new Error("Incorrect arguments!");
+
+    str = str.toUpperCase();
+    key = key.toUpperCase();
+
+    let iterator = 0;
+    let getShiftValue = () => alphabet.indexOf(key[iterator++ % key.length]);
+
+    let result = str.replace(/[a-z]/gi, (char) => {
+      let position = alphabet.indexOf(char) - getShiftValue();
+      return alphabet[position >= 0 ? position: alphabet.length + position];
+    });
+    return this.isReversed ? result.split("").reverse().join(""): result;
   }
 }
 
