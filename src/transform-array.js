@@ -14,25 +14,38 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function transform(arr) {
-  if (!Array.isArray(arr)) throw `'arr' parameter must be an instance of the Array!`;
-  let mappedArray = [];
-  let index = 0;
+  if (!Array.isArray(arr)) throw new Error(`'arr' parameter must be an instance of the Array!`);
+  if (arr.length === 0) return arr;
 
-  let discardedValue = null;
-  let performSequenceInteraction = (code) => {
-    switch (code) {
+  let newArray = [];
+  let newArrayIterator = 0;
+
+  let process = (key, value) => {
+    let transformedValue = null;
+    switch (value) {
       case "--double-next":
-
+        if (key + 1 < arr.length) transformedValue = arr[key + 1];
         break;
       case "--double-prev":
+        if (key - 1 >= 0 && newArray[newArrayIterator - 1] != null) transformedValue = arr[key - 1];
         break;
       case "--discard-next":
+        if (key + 1 < arr.length) transformedValue = arr[key + 1];
         break;
       case "--discard-prev":
+        if (newArrayIterator - 1 >= 0) newArray[newArrayIterator - 1]
         break;
+      default:
+        transformedValue = arr[key];
     }
   }
   
+  for (let i = 0; i < arr.length; i++) {
+    
+
+
+  }
+  let index = 0;
   while (index < arr.length) {
     index++;
   }

@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../extensions/index.js');
+const { intDiv } = require('../extensions/index.js');
 
 /**
  * Given a number, replace this number with
@@ -14,10 +14,6 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function getSumOfDigits(n) {
   let result = 0;
-
-  let intDiv = (num1, num2) => {
-    return Math.floor(num1 / num2);
-  }
 
   while(n !== 0) {
     result += n % 10;
